@@ -4,7 +4,7 @@ const path = require('path');
 const QRCode = require('qrcode'); // <-- C'EST CETTE LIGNE QUI MANQUAIT
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env || 3000;
 const DB_FILE = path.join(__dirname, 'database.json');
 
 
@@ -106,6 +106,10 @@ app.post('/api/guests/confirm', handleRSVP);
 
 
 // --- ROUTES ADMINISTRATION (DASHBOARD) ---
+app.get('/admin', (req, res) => {
+    res.sendFile('admin.html', { root: path.join(__dirname, 'public') });
+});
+
 
 // 1. Récupérer la liste complète des invités
 app.get('/api/admin/invites', (req, res) => {
@@ -217,6 +221,9 @@ app.post('/api/admin/scan-qr', (req, res) => {
 });
 
 // Démarrage du serveur Node.js
-app.listen(PORT, () => {
-    console.log(`🚀 Serveur en cours d'exécution sur http://localhost:${PORT}`);
+// Démarrage du serveur Node.js
+const serverPort = process.env.PORT || 3000;
+
+app.listen(serverPort, () => {
+    console.log(`Serveur démarré sur le port ${serverPort}`);
 });

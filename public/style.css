@@ -730,3 +730,25 @@ footer {
     color: #94a3b8;
     font-style: italic;
 }
+.whatsapp-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.whatsapp-btn {
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: sans-serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1EBE5D;
+    transform: scale(1.05);
+}
