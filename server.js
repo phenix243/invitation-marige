@@ -1,0 +1,222 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const QRCode = require('qrcode'); // <-- C'EST CETTE LIGNE QUI MANQUAIT
+
+const app = express();
+const PORT = 3000;
+const DB_FILE = path.join(__dirname, 'database.json');
+
+
+// Middlewares obligatoires pour le traitement du JSON et des fichiers statiques
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Lecture sécurisée de la base de données (s'assure de toujours retourner un tableau)
+const readDB = () => {
+    if (!fs.existsSync(DB_FILE)) {
+        fs.writeFileSync(DB_FILE, JSON.stringify([], null, 2));
+        return [];
+    }
+    try {
+        const data = fs.readFileSync(DB_FILE, 'utf-8');
+        const parsed = JSON.parse(data);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (err) {
+        return [];
+    }
+};
+
+// Écriture sécurisée dans la BDD JSON
+const writeDB = (data) => {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+};
+// --- ROUTE PUBLIQUE : CONFIRMATION DE PRÉSENCE (RSVP) ---
+const handleRSVP = async (req, res) => {
+    try {
+        const { prenom, nom, presence, boisson, motDoux } = req.body || {};
+
+        if (!prenom || !nom) {
+            return res.status(400).json({ error: "Le prénom et le nom sont requis." });
+        }
+
+        let invites = readDB();
+        let targetGuest;
+
+        const index = invites.findIndex(i => 
+            i.prenom && i.nom &&
+            i.prenom.trim().toLowerCase() === prenom.trim().toLowerCase() && 
+            i.nom.trim().toLowerCase() === nom.trim().toLowerCase()
+        );
+
+        if (index !== -1) {
+            invites[index].confirmed = true;
+            invites[index].presence = presence || 'Oui';
+            invites[index].boisson = boisson || 'Non spécifié';
+            if (motDoux) invites[index].motDoux = motDoux;
+            targetGuest = invites[index];
+            writeDB(invites);
+            console.log(`🎉 Présence mise à jour : ${prenom} ${nom}`);
+        } else {
+            targetGuest = {
+                id: 'INV-' + Date.now(),
+                prenom: prenom.trim(),
+                nom: nom.trim(),
+                confirmed: true,
+                presence: presence || 'Oui',
+                boisson: boisson || 'Non spécifié',
+                motDoux: motDoux || '',
+                table: 'Non assignée',
+                scanned: false,
+                createdAt: new Date().toISOString()
+            };
+            invites.push(targetGuest);
+            writeDB(invites);
+            console.log(`✨ Nouvel invité enregistré via RSVP : ${prenom} ${nom}`);
+        }
+
+        // Génération de l'image QR Code au format Data URL (base64)
+        const qrCodeImage = await QRCode.toDataURL(targetGuest.id);
+
+        const guestData = {
+            ...targetGuest,
+            qrCode: qrCodeImage
+        };
+
+        return res.json({ 
+            success: true, 
+            status: "ok", 
+            ok: true, 
+            message: "Votre présence a bien été enregistrée !",
+            invite: guestData,
+            qrCode: qrCodeImage
+        });
+
+    } catch (err) {
+        console.error("Erreur serveur lors du RSVP :", err);
+        return res.status(500).json({ error: "Erreur serveur." });
+    }
+};
+
+
+// Intercepter toutes les routes possibles demandées par la page d'invitation
+app.post('/api/rsvp', handleRSVP);
+app.post('/api/confirm', handleRSVP);
+app.post('/api/guests/confirm', handleRSVP);
+
+
+// --- ROUTES ADMINISTRATION (DASHBOARD) ---
+
+// 1. Récupérer la liste complète des invités
+app.get('/api/admin/invites', (req, res) => {
+    const invites = readDB();
+    res.json(invites);
+});
+
+// 2. Ajouter / Pré-enregistrer un invité VIP
+// 2. Ajouter / Pré-enregistrer un invité VIP (avec Civilité)
+app.post('/api/admin/add-guest', (req, res) => {
+    try {
+        const { title, prenom, nom, table } = req.body || {};
+
+        if (!prenom || !nom) {
+            return res.status(400).json({ error: 'Le prénom et le nom sont requis.' });
+        }
+
+        let invites = readDB();
+        const newGuest = {
+            id: 'INV-' + Date.now(),
+            title: title || 'Mr/Mme', // Ex: "Monsieur", "Madame", "Mr & Mme" / "Couple"
+            prenom: prenom.trim(),
+            nom: nom.trim(),
+            table: table ? table.trim() : 'Non assignée',
+            confirmed: false,
+            presence: 'En attente',
+            boisson: 'Non spécifié',
+            scanned: false,
+            scannedAt: null,
+            createdAt: new Date().toISOString()
+        };
+
+        invites.push(newGuest);
+        writeDB(invites);
+
+        console.log(`✅ Nouvel invité VIP pré-enregistré : ${title || ''} ${prenom} ${nom}`);
+        res.json({ success: true, status: "ok", invite: newGuest });
+    } catch (err) {
+        console.error("Erreur ajout invité :", err);
+        res.status(500).json({ error: "Erreur serveur lors de l'ajout." });
+    }
+});
+
+
+// 3. Modifier les informations d'un invité
+app.put('/api/admin/update-guest/:id', (req, res) => {
+    const { prenom, nom } = req.body;
+    let invites = readDB();
+    const index = invites.findIndex(i => i.id === req.params.id);
+
+    if (index !== -1) {
+        invites[index].prenom = prenom.trim();
+        invites[index].nom = nom.trim();
+        writeDB(invites);
+        return res.json({ success: true, status: "ok" });
+    }
+    res.status(404).json({ error: 'Invité introuvable.' });
+});
+
+// 4. Assigner ou modifier une table
+app.post('/api/admin/assign-table', (req, res) => {
+    const { id, table } = req.body;
+    let invites = readDB();
+    const index = invites.findIndex(i => i.id === id);
+
+    if (index !== -1) {
+        invites[index].table = table.trim();
+        writeDB(invites);
+        return res.json({ success: true, status: "ok" });
+    }
+    res.status(404).json({ error: 'Invité introuvable.' });
+});
+
+// 5. Supprimer un invité de la liste
+app.delete('/api/admin/delete-guest/:id', (req, res) => {
+    let invites = readDB();
+    invites = invites.filter(i => i.id !== req.params.id);
+    writeDB(invites);
+    res.json({ success: true, status: "ok" });
+});
+
+// 6. Scanner un QR Code à l'entrée
+app.post('/api/admin/scan-qr', (req, res) => {
+    const { id } = req.body;
+    let invites = readDB();
+    const index = invites.findIndex(i => i.id === id);
+
+    if (index === -1) {
+        return res.json({ status: 'INVALID', message: 'Pass invalide ou non reconnu.' });
+    }
+
+    if (invites[index].scanned) {
+        return res.json({ 
+            status: 'ALREADY_USED', 
+            message: 'Ce pass a déjà été scanné !',
+            scannedAt: invites[index].scannedAt 
+        });
+    }
+
+    invites[index].scanned = true;
+    invites[index].scannedAt = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    writeDB(invites);
+
+    res.json({
+        status: 'VALID',
+        message: 'Accès autorisé !',
+        invite: invites[index]
+    });
+});
+
+// Démarrage du serveur Node.js
+app.listen(PORT, () => {
+    console.log(`🚀 Serveur en cours d'exécution sur http://localhost:${PORT}`);
+});

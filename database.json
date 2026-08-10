@@ -1,0 +1,63 @@
+[
+  {
+    "id": "INV-1786127686171",
+    "prenom": "Yvonne",
+    "nom": "nyangi",
+    "table": "dan",
+    "confirmed": true,
+    "presence": "Oui",
+    "boisson": "Champagne",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-07T18:34:46.171Z"
+  },
+  {
+    "id": "INV-1786128444289",
+    "prenom": "sonne",
+    "nom": "bien",
+    "confirmed": true,
+    "presence": "Oui",
+    "boisson": "Champagne",
+    "motDoux": "",
+    "table": "Non assignée",
+    "scanned": false,
+    "createdAt": "2026-08-07T18:47:24.289Z"
+  },
+  {
+    "id": "INV-1786129259815",
+    "prenom": "grace",
+    "nom": "nyangi",
+    "table": "dan",
+    "confirmed": true,
+    "presence": "Oui",
+    "boisson": "Champagne",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-07T19:00:59.815Z"
+  },
+  {
+    "id": "INV-1786210195589",
+    "prenom": "Victoire",
+    "nom": "Nyangi",
+    "confirmed": true,
+    "presence": "Oui",
+    "boisson": "Jus / Sans Alcool",
+    "motDoux": "",
+    "table": "Non assignée",
+    "scanned": false,
+    "createdAt": "2026-08-08T17:29:55.590Z"
+  },
+  {
+    "id": "INV-1786393946531",
+    "title": "Mr & Mme",
+    "prenom": "david",
+    "nom": "nyangi",
+    "table": "david",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-10T20:32:26.531Z"
+  }
+]

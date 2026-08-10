@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariage de Franchou & David</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Feuille de style CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 1. LECTEUR DE MUSIQUE FLOTTANT -->
+    <div class="music-player">
+        <button id="musicBtn" class="btn-music">🎵 Jouer la musique</button>
+        <audio id="bgMusic" loop>
+            <!-- Vous pouvez remplacer ce lien par votre propre fichier musique.mp3 dans le dossier public -->
+            <source src="Fr Kevin MBAKI - Ton Onction.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- 2. BLOC D'ACCUEIL (SCINDÉ EN 2) -->
+    <header class="hero-split">
+        <div class="split-card">
+            
+            <!-- CÔTÉ GAUCHE / HAUT : Photo du couple -->
+            <div class="split-image-container">
+                <!-- Remplacez couple.jpg par le nom exact de votre image dans le dossier public -->
+                <img src="IMG_1038.jpg" alt="Franchou et David" class="couple-hero-img">
+                <div class="image-overlay-badge">
+                    <span>F ❤️ D</span>
+                </div>
+            </div>
+
+            <!-- CÔTÉ DROIT / BAS : Informations & Compte à rebours -->
+            <div class="split-content">
+                <span class="tag">INVITATION VIP</span>
+                <h1 class="names">Franchou<span class="amp">&</span> David</h1>
+                
+                <div class="quote-pill">
+                    <span> Aimer, ce n'est pas se regarder l'un l'autre, c'est regarder ensemble dans la même direction. </span>
+                </div>
+
+                <p class="sub-text">Sont heureux de vous inviter à la célébration de leur mariage</p>
+                
+                <div class="date-badge">
+                    <p>Dimanche <strong>13 SEPTEMBRE 2026</strong> À 19H30</p>
+                </div>
+
+                <!-- Compte à rebours -->
+                <div class="countdown-container">
+                    <div class="time-box"><span id="days">00</span><small>Jours</small></div>
+                    <div class="time-box"><span id="hours">00</span><small>Heures</small></div>
+                    <div class="time-box"><span id="minutes">00</span><small>Min</small></div>
+                    <div class="time-box"><span id="seconds">00</span><small>Sec</small></div>
+                </div>
+
+                <a href="#rsvp" class="btn-gold block-btn">Confirmer votre présence</a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- 3. PROGRAMME DE LA JOURNÉE -->
+    <section class="section">
+        <h2 class="section-title">Programme des Festivités</h2>
+        <div class="cards-grid">
+            
+            <div class="card highlight">
+                <div class="icon">⛪</div>
+                <h3>Bénédiction Nuptiale</h3>
+                <p class="time">10h30</p>
+                <p>Perfection Tabernacle</p>
+                <p>Ndjili Q8</p>
+                <p>Av Kinsuka Réf école Biochimie</p>
+            </div>
+            <div class="card">
+                <div class="icon">🥂</div>
+                <h3>Soirée Dansante </h3>
+                <p class="time">19h30</p>
+                <p>Salle AJARA</p>
+            </div>
+        </div>
+    </section>
+
+  <!-- SECTION PROGRAMME -->
+<section class="program-section">
+    <h2 class="program-section-title">PROGRAMME DE LA SOIRÉE</h2>
+    <div class="section-divider">◆</div>
+  
+    <div class="program-card">
+      <div class="program-top-time">19 H 30'</div>
+  
+      <div class="vertical-timeline">
+        <!-- Axe central vertical -->
+        <div class="v-line"></div>
+  
+        <!-- 19H00 - Droite -->
+        <div class="v-item right">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="badge-start">➔ Let's<br><span>START</span></div>
+            <div class="v-text">
+              <span class="v-time">19 H 30'</span>
+              <span class="v-title">ARRIVÉE ET INSTALLATION DES INVITÉS</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 21H00 - Gauche -->
+        <div class="v-item left">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="v-text">
+              <span class="v-time">21 H 00'</span>
+              <span class="v-title">ENTRÉE DES MARIÉS</span>
+            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/2829/2829801.png" class="v-icon" alt="Mariés">
+          </div>
+        </div>
+  
+        <!-- 21H30 - Droite -->
+        <div class="v-item right">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <img src="https://cdn-icons-png.flaticon.com/512/3656/3656853.png" class="v-icon" alt="Présentation">
+            <div class="v-text">
+              <span class="v-time">21 H 30'</span>
+              <span class="v-title">PRÉSENTATION DES MARIÉS</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 21H45 - Gauche -->
+        <div class="v-item left">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="v-text">
+              <span class="v-time">21 H 45'</span>
+              <span class="v-title">OUVERTURE DE BAL</span>
+            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/3079/3079148.png" class="v-icon" alt="Bal">
+          </div>
+        </div>
+  
+        <!-- 22H00 - Droite -->
+        <div class="v-item right">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <img src="https://cdn-icons-png.flaticon.com/512/3209/3209990.png" class="v-icon" alt="Cadeaux">
+            <div class="v-text">
+              <span class="v-time">22 H 00'</span>
+              <span class="v-title">REMISE DES CADEAUX</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 23H00 - Gauche -->
+        <div class="v-item left">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="v-text">
+              <span class="v-time">23 H 00'</span>
+              <span class="v-title">BUFFET</span>
+            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/3448/3448609.png" class="v-icon" alt="Buffet">
+          </div>
+        </div>
+  
+        <!-- 23H30 - Droite -->
+        <div class="v-item right">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" class="v-icon" alt="Gâteau">
+            <div class="v-text">
+              <span class="v-time">23 H 30'</span>
+              <span class="v-title">WEDDING CAKE</span>
+            </div>
+          </div>
+        </div>
+  
+        <!-- 00H15 - Gauche -->
+        <div class="v-item left">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="v-text">
+              <span class="v-time">00 H 15'</span>
+              <span class="v-title">MUSIQUE ET DANSE</span>
+            </div>
+            <img src="https://cdn-icons-png.flaticon.com/512/931/931949.png" class="v-icon" alt="Danse">
+          </div>
+        </div>
+  
+        <!-- 05H00 - Droite -->
+        <div class="v-item right">
+          <div class="connector-line"></div>
+          <div class="v-content">
+            <div class="badge-start">➔ Let's<br><span>END</span></div>
+            <div class="v-text">
+              <span class="v-time">....</span>
+              <span class="v-title">FIN DE LA SOIRÉE</span>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+  
+      <!-- THÈME -->
+      <div class="theme-block">
+        <h3 class="theme-title">THÈME</h3>
+        <p class="theme-subtitle">Noir & Blanc</p>
+      </div>
+    </div>
+  </section>
+  
+  
+    
+     <!-- 4. GÉOLOCALISATION & ADRESSE DE LA SALLE -->
+     <section class="section">
+        <h2 class="section-title">Lieu de la Réception</h2>
+        <div class="glass-card map-card">
+            <h3>Salle AJARA</h3>
+            <p>N° 24, Avenue Victoire, Commune de Kalamu, Kinshasa</p>
+            <p><small>📍 Réf : Réf. Maison Communale de Kalamu</small></p>
+            
+            <!-- Carte Google Maps centrée sur la Maison Communale de Kalamu / Av. Victoire -->
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.489112345678!2d15.3125!3d-4.3328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a332810a45b85%3A0x7d0232230101b0f5!2sMaison%20Communale%20de%20Kalamu%2C%20Kinshasa!5e0!3m2!1sfr!2scd!4v1710000000000!5m2!1sfr!2scd" 
+                    width="100%" 
+                    height="280" 
+                    style="border:0; border-radius: 12px;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+
+            <!-- Bouton de redirection GPS directe -->
+            <a href="https://www.google.com/maps/search/?api=1&query=Maison+Communale+de+Kalamu+Avenue+Victoire+Kinshasa" target="_blank" rel="noopener noreferrer" class="btn-gold gps-btn">
+                🧭 Lancer l'itinéraire GPS (Salle Ajara)
+            </a>
+        </div>
+    </section>
+
+    <!-- 5. FORMULAIRE RSVP & PASSERELLE QR CODE -->
+    <section id="rsvp" class="section">
+        <h2 class="section-title">Confirmation de Présence</h2>
+        <div class="glass-card rsvp-card">
+            <p class="rsvp-note">Merci de confirmer votre présence avant le 1er SEPTEMBRE 2026.</p>
+            
+            <form id="rsvpForm">
+                <div class="input-row">
+                    <input type="text" id="prenom" placeholder="Votre Prénom" required>
+                    <input type="text" id="nom" placeholder="Votre Nom" required>
+                </div>
+
+                <div class="input-row">
+                    <select id="presence" required>
+                        <option value="Oui">Je serai présent(e) 🎉</option>
+                        <option value="Non">Je ne pourrai pas venir 😢</option>
+                    </select>
+
+                    <select id="boisson">
+                        <option value="Champagne">Champagne 🍾</option>
+                        <option value="Vin Rouge">Vin Rouge 🍷</option>
+                        <option value="Jus / Sans Alcool">Jus / Sucrée 🥤</option>
+                        <option value="Jus / Sans Alcool">Autres🥤</option>
+                    </select>
+                </div>
+
+                <textarea id="message" rows="3" placeholder="Un mot doux ou une contrainte alimentaire ?"></textarea>
+
+                <button type="submit" class="btn-gold block">Valider ma présence</button>
+            </form>
+
+            <!-- ZONE D'AFFICHAGE APPRÈS VALIDATION -->
+            <div id="confirmationResult" class="result-box hidden">
+                <span class="badge-success">✔ Inscription Confirmée</span>
+                <h3>Merci pour votre réponse !</h3>
+                
+                <!-- LE TICKET DOIT ÊTRE À L'INTÉRIEUR SANS LA CLASSE HIDDEN -->
+                <div id="ticketToPrint" class="ticket-card">
+                    <div class="ticket-header">
+                        <span class="ticket-tag">PASS INVITATION VIP</span>
+                        <h4>Cécile & Alfred</h4>
+                    </div>
+                    <div class="ticket-body">
+                        <p class="ticket-guest" id="guestFullName">Invité VIP</p>
+                        <p class="ticket-date">🗓️ Dimanche 13 SEPTEMBRE 2026</p>
+                        <div class="qr-wrapper">
+                            <img id="qrCodeImg" src="" alt="Votre QR Code d'invitation">
+                        </div>
+                        <small class="ticket-footer">Présentez ce QR Code à l'entrée</small>
+                    </div>
+                </div>
+            
+                <button id="downloadPdfBtn" class="btn-gold block" style="margin-top: 15px;">
+                    📄 Télécharger mon Pass (PDF)
+                </button>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <!-- 6. LIVRE D'OR -->
+    <section class="section">
+        <h2 class="section-title">Livre d'Or</h2>
+        <div id="messagesList" class="guestbook-grid">
+            <!-- Les messages soumis par le formulaire s'afficheront ici dynamiquement -->
+        </div>
+    </section>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+        <p>Design by @David/Nyangi— 2026 • </p>
+    </footer>
+
+    <!-- Script JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

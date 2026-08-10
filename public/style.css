@@ -1,0 +1,732 @@
+/* ==========================================================================
+   1. VARIABLES & REINITIALISATION (RESET)
+   ========================================================================== */
+   :root {
+    --gold: #d4af37;
+    --gold-light: #f3e5ab;
+    --gold-dark: #b59227;
+    --dark-blue: #0f172a;
+    --bg-light: #faf8f5;
+    --white: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-light);
+    color: #334155;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   2. BOUTON MUSIQUE FLOTTANT
+   ========================================================================== */
+.music-player {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.btn-music {
+    background: rgba(15, 23, 42, 0.85);
+    color: var(--gold-light);
+    border: 1px solid var(--gold);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-music:hover {
+    background: var(--dark-blue);
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   3. HERO HEADER (BLOC D'ACCUEIL DIVISÉ EN 2)
+   ========================================================================== */
+.hero-split {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    background: linear-gradient(135deg, #fdfbf7 0%, #e2d1c3 100%);
+}
+
+.split-card {
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: row; /* Côte à côte sur grand écran */
+    max-width: 950px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Côté Gauche : Photo du couple */
+.split-image-container {
+    flex: 1;
+    min-height: 480px;
+    position: relative;
+    background: #0f172a;
+}
+
+.couple-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.image-overlay-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(8px);
+    color: var(--gold-light);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* Côté Droit : Contenu texte & décompte */
+.split-content {
+    flex: 1;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.tag {
+    font-size: 0.75rem;
+    letter-spacing: 4px;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.names {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    color: var(--dark-blue);
+    margin: 8px 0;
+}
+
+.names .amp {
+    font-family: 'Great Vibes', cursive;
+    color: var(--gold);
+    font-size: 2.8rem;
+}
+
+.quote-pill {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(15, 23, 42, 0.05));
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    color: var(--dark-blue);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin: 12px 0 18px 0;
+}
+
+.sub-text {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.date-badge {
+    display: inline-block;
+    background: #f1f5f9;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+/* Compte à rebours */
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.time-box {
+    background: var(--dark-blue);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 12px;
+    min-width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-box span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--gold-light);
+}
+
+.time-box small {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   4. BOUTONS STYLISÉS
+   ========================================================================== */
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    color: var(--white);
+    padding: 14px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-gold.block-btn, .btn-gold.block {
+    width: 100%;
+}
+
+/* ==========================================================================
+   5. SECTIONS GENERALES & CARTES PROGRAMME
+   ========================================================================== */
+.section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--dark-blue);
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '✦';
+    display: block;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-top: 5px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--white);
+    padding: 35px 25px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card.highlight {
+    border: 1px solid var(--gold-light);
+    background: linear-gradient(to bottom, #ffffff, #fdfbf7);
+}
+
+.card .icon {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+.card .time {
+    color: var(--gold);
+    font-weight: 600;
+    margin: 8px 0;
+}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@400;600;700;800&display=swap');
+
+/* --- SECTION ET CARTE DU SITE --- */
+.program-section {
+  width: 100%;
+  padding: 50px 20px;
+  box-sizing: border-box;
+}
+
+.program-section-title {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  font-size: 1.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #2b2b2b;
+  margin: 0 0 8px 0;
+}
+
+.section-divider {
+  text-align: center;
+  color: #c5a059;
+  font-size: 0.8rem;
+  margin-bottom: 30px;
+}
+
+.program-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 40px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-sizing: border-box;
+}
+
+.program-top-time {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #111111;
+  margin-bottom: 35px;
+}
+
+/* --- TIMELINE VERTICALE FIÈLE AU MODÈLE --- */
+.vertical-timeline {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 10px 0;
+}
+
+/* Ligne centrale avec barres en haut/bas */
+.v-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background-color: #111111;
+  transform: translateX(-50%);
+}
+
+.v-line::before,
+.v-line::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  width: 16px;
+  height: 2px;
+  background-color: #111111;
+  transform: translateX(-50%);
+}
+.v-line::before { top: 0; }
+.v-line::after { bottom: 0; }
+
+/* Items */
+.v-item {
+  position: relative;
+  width: 50%;
+  min-height: 75px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Branchement Gauche vs Droite */
+.v-item.left {
+  left: 0;
+  padding-right: 25px;
+  justify-content: flex-end;
+}
+
+.v-item.right {
+  left: 50%;
+  padding-left: 25px;
+  justify-content: flex-start;
+}
+
+/* Petite ligne horizontale de connexion à l'axe central */
+.connector-line {
+  position: absolute;
+  top: 50%;
+  height: 1.5px;
+  background-color: #111111;
+  width: 20px;
+}
+
+.v-item.left .connector-line {
+  right: 0;
+}
+
+.v-item.right .connector-line {
+  left: 0;
+}
+
+/* Contenu (icône + texte) */
+.v-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.v-item.left .v-content {
+  flex-direction: row;
+  text-align: right;
+}
+
+.v-item.right .v-content {
+  flex-direction: row;
+  text-align: left;
+}
+
+.v-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Textes */
+.v-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.v-time {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111111;
+  letter-spacing: 1px;
+}
+
+.v-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333333;
+  margin-top: 2px;
+  line-height: 1.2;
+}
+
+/* Badge Let's START / END */
+.badge-start {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #111111;
+  text-transform: uppercase;
+}
+.badge-start span {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+/* --- BLOC THÈME --- */
+.theme-block {
+  text-align: center;
+  margin-top: 45px;
+  padding-top: 20px;
+}
+
+.theme-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #111111;
+  margin: 0 0 5px 0;
+}
+
+.theme-subtitle {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.8rem;
+  color: #111111;
+  margin: 0;
+}
+
+/* Adaptabilité mobile */
+@media (max-width: 500px) {
+  .program-card {
+    padding: 25px 10px;
+  }
+  .v-item.left { padding-right: 12px; }
+  .v-item.right { padding-left: 12px; }
+  .connector-line { width: 10px; }
+  .v-icon { width: 32px; height: 32px; }
+  .v-time { font-size: 0.9rem; }
+  .v-title { font-size: 0.55rem; }
+}
+
+
+/* ==========================================================================
+   6. CARTE GOOGLE MAPS / GEOLOCALISATION
+   ========================================================================== */
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 35px 25px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.map-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.map-container {
+    margin: 20px 0;
+    box-shadow: var(--shadow);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gps-btn {
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   7. FORMULAIRE RSVP & PASSERELLE QR CODE
+   ========================================================================== */
+.rsvp-card {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.rsvp-note {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+}
+
+.input-row > * {
+    flex: 1;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    background: var(--white);
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+}
+
+.hidden {
+    display: none;
+}
+
+.result-box {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+}
+
+.badge-success {
+    display: inline-block;
+    background: #22c55e;
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.qr-wrapper {
+    background: var(--white);
+    padding: 15px;
+    display: inline-block;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-top: 15px;
+}
+
+.qr-wrapper img {
+    width: 180px;
+    height: 180px;
+}
+
+/* ==========================================================================
+   8. LIVRE D'OR
+   ========================================================================== */
+.guestbook-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.guest-card {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-align: left;
+    border-left: 3px solid var(--gold);
+}
+
+.guest-card strong {
+    color: var(--dark-blue);
+    font-size: 0.9rem;
+}
+
+.guest-card p {
+    font-size: 0.85rem;
+    color: #475569;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background: var(--dark-blue);
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   9. RESPONSIVE DESIGN (TELEPHONE & TABLETTE)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .split-card {
+        flex-direction: column; /* Bascule la photo au-dessus du texte */
+    }
+
+    .split-image-container {
+        height: 380px;
+        min-height: auto;
+    }
+
+    .split-content {
+        padding: 30px 20px;
+    }
+
+    .input-row {
+        flex-direction: column;
+    }
+
+    .names {
+        font-size: 1.8rem;
+    }
+}
+/* --- TICKET INVITATION PDF --- */
+.ticket-card {
+    background: #ffffff;
+    border: 2px dashed var(--gold);
+    border-radius: 16px;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 350px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.ticket-header {
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.ticket-tag {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--gold-dark);
+    font-weight: 700;
+}
+
+.ticket-header h4 {
+    font-family: 'Cinzel', serif;
+    color: var(--dark-blue);
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+.ticket-guest {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    margin-bottom: 5px;
+}
+
+.ticket-date {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.ticket-footer {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-style: italic;
+}
