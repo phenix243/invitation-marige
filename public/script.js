@@ -184,3 +184,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Premier chargement des messages du livre d'or
     loadGuestbook();
 });
+
+
+
+// --- Lancer la musique au premier mouvement / scroll ---
+function activeMusiqueAuMouvement() {
+    const audio = document.getElementById('bgMusic');
+    if (audio && audio.paused) {
+        audio.play().catch(error => {
+            console.log("Lecture automatique en attente d'une interaction.");
+        });
+    }
+
+    // Supprime les écouteurs pour éviter de relancer la fonction inutilement
+    window.removeEventListener('scroll', activeMusiqueAuMouvement);
+    window.removeEventListener('touchstart', activeMusiqueAuMouvement);
+    window.removeEventListener('click', activeMusiqueAuMouvement);
+}
+
+// Écoute le scroll, le toucher sur mobile et le clic
+window.addEventListener('scroll', activeMusiqueAuMouvement, { passive: true });
+window.addEventListener('touchstart', activeMusiqueAuMouvement, { passive: true });
+window.addEventListener('click', activeMusiqueAuMouvement);
