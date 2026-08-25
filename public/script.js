@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
     // ==========================================
     // 5. TÉLÉCHARGEMENT DU PASS PDF (html2pdf.js)
     // ==========================================
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Erreur : Impossible de trouver le ticket à imprimer.");
                 return;
             }
+
 
             const originalBtnText = downloadPdfBtn.innerText;
             downloadPdfBtn.innerText = "⏳ Génération du PDF...";
