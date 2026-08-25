@@ -29,19 +29,37 @@ body {
     min-height: 100vh;
     font-family: Arial, sans-serif;
 }
-
-/* Style de l'image principale centree et nette */
+/* Style de l'image principale pour qu'elle s'adapte parfaitement, sans être coupée */
 .invitation-container img, 
 .hero-image,
 .main-image {
-    max-width: 90%;
-    width: 450px;
-    height: auto;
     display: block;
-    margin: 20px auto;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin: 20px auto;       /* Centre horizontalement et ajoute de l'espace en haut/bas */
+    
+    /* --- Les corrections cruciales ici --- */
+    width: auto;             /* Ne pas forcer la largeur */
+    height: auto;            /* Conserve les proportions */
+    
+    /* S'adapte à la largeur, mais ne dépasse JAMAIS 90% */
+    max-width: 90%; 
+    
+    /* NOUVEAU : S'adapte à la HAUTEUR, mais ne dépasse JAMAIS 70% de la hauteur de l'écran */
+    /* Cela garantit que le haut et le bas de l'image sont visibles ! */
+    max-height: 70vh; 
+    
+    object-fit: contain;     /* S'assure que l'image entière est visible à l'intérieur */
+    /* ----------------------------------- */
+
+    border-radius: 15px;     /* Conserve l'effet élégant */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Conserve l'effet de relief */
 }
+
+/* Optionnel : Supprimer la marge en haut du body pour donner plus de place */
+body {
+    padding-top: 0;
+    margin-top: 0;
+}
+
 
 /* ==========================================================================
    2. BOUTON MUSIQUE FLOTTANT
