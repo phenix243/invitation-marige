@@ -17,14 +17,32 @@
     box-sizing: border-box;
 }
 
+/* 1. Arrière-plan propre, doux et bien lisible */
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('fond.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background-color: #f8f9fa; /* Un fond gris très clair / blanc cassé très élégant */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre tout le contenu au milieu de l'écran */
+    justify-content: center;
     min-height: 100vh;
+    font-family: Arial, sans-serif;
 }
+
+/* Style de l'image principale centree et nette */
+.invitation-container img, 
+.hero-image,
+.main-image {
+    max-width: 90%;
+    width: 450px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* ==========================================================================
    2. BOUTON MUSIQUE FLOTTANT
    ========================================================================== */
