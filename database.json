@@ -336,14 +336,6 @@
     "scanned": false
   },
   {
-    "id": "INV-1787900449950",
-    "nom": "Mr & Mme CHICO .",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
     "id": "INV-1787900449951",
     "nom": "Mr & Mme BENITA .",
     "presence": "En attente",
@@ -376,30 +368,6 @@
     "scanned": false
   },
   {
-    "id": "INV-1787900449955",
-    "nom": "Mr & Mme DODO .",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
-    "id": "INV-1787900449956",
-    "nom": "Mr & Mme PASCAL .",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
-    "id": "INV-1787900449957",
-    "nom": "Monsieur JORDAN .",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
     "id": "INV-1787900449958",
     "nom": "Andia Bondenge",
     "presence": "Confirmé (Oui)",
@@ -421,19 +389,6 @@
     "createdAt": "2026-08-28T08:36:35.800Z"
   },
   {
-    "id": "INV-1787906356400",
-    "title": "Mr & Mme",
-    "prenom": "CELESTIN",
-    "nom": "CELESTIN",
-    "table": "EGYPTE",
-    "confirmed": false,
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "scanned": false,
-    "scannedAt": null,
-    "createdAt": "2026-08-28T08:39:16.400Z"
-  },
-  {
     "id": "INV-1787907176558",
     "title": "Mr & Mme",
     "prenom": "VICKY",
@@ -445,5 +400,109 @@
     "scanned": false,
     "scannedAt": null,
     "createdAt": "2026-08-28T08:52:56.558Z"
+  },
+  {
+    "id": "INV-1787913773182",
+    "title": "Monsieur",
+    "prenom": "JORDAN",
+    "nom": ".",
+    "table": "MOZAMBIQUE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:42:53.182Z"
+  },
+  {
+    "id": "INV-1787914089278",
+    "title": "Mr & Mme",
+    "prenom": "DODO",
+    "nom": "COUPLE",
+    "table": "EGYPTE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:48:09.278Z"
+  },
+  {
+    "id": "INV-1787914120377",
+    "title": "Mr & Mme",
+    "prenom": "CELESTIN",
+    "nom": "COUPLE",
+    "table": "EGYPTE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:48:40.377Z"
+  },
+  {
+    "id": "INV-1787914180139",
+    "title": "Mr & Mme",
+    "prenom": "PATIENCE",
+    "nom": "COUPLE",
+    "table": "NIGERIA",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:49:40.139Z"
+  },
+  {
+    "id": "INV-1787914199456",
+    "title": "Mr & Mme",
+    "prenom": "PASCAL",
+    "nom": "COUPLE",
+    "table": "EGYPTE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:49:59.456Z"
+  },
+  {
+    "id": "INV-1787914354244",
+    "title": "Mr & Mme",
+    "prenom": "COUPLE KOMBO",
+    "nom": "BENA",
+    "table": "KENYA",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:52:34.244Z"
+  },
+  {
+    "id": "INV-1787914738244",
+    "title": "Mr & Mme",
+    "prenom": "COUPLE GRACE",
+    "nom": "KABWENDE",
+    "table": "FRANCE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T10:58:58.244Z"
+  },
+  {
+    "id": "INV-1787914846428",
+    "title": "Mr & Mme",
+    "prenom": "COUPLE",
+    "nom": "CHIKITO",
+    "table": "KENYA",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T11:00:46.428Z"
   }
 ]
