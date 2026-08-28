@@ -1,4 +1,25 @@
+// --- 1. SÉCURITÉ IMMÉDIATE (S'exécute en tout premier) ---
+(function() {
+    const CODE_SECRET = "2026"; // Votre mot de passe
+
+    if (sessionStorage.getItem("protocole_auth") !== "true") {
+        const saisie = prompt("Accès Protocole - Entrez le code d'accès :");
+
+        if (saisie === CODE_SECRET) {
+            sessionStorage.setItem("protocole_auth", "true");
+        } else {
+            alert("Code d'accès incorrect.");
+            window.location.href = "/"; // Redirige vers l'accueil
+            throw new Error("Accès refusé"); // Stoppe net l'exécution de tout le JS
+        }
+    }
+})();
+// -----------------------------------------------------
+
+
+// Bloque l'initialisation du tableau de bord si le code est faux
 document.addEventListener('DOMContentLoaded', () => {
+    if (!protocoleAuth()) return;
 
     // Éléments du DOM
     const adminInvitesList = document.getElementById('adminInvitesList');
@@ -12,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allInvites = [];
     let html5QrcodeScanner = null;
+
+   
 
     // --- 1. RENDU DU TABLEAU D'INVITÉS ---
     const renderTable = (invites) => {
@@ -253,6 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Chargement initial des données au démarrage de la page
-    loadAdminData();
+    
+
 });
