@@ -1,19 +1,22 @@
-// --- 1. SÉCURITÉ IMMÉDIATE (S'exécute en tout premier) ---
-(function() {
-    const CODE_SECRET = "2026"; // Votre mot de passe
+// --- 1. SÉCURITÉ IMMÉDIATE ---
+function protocoleAuth() {
+    const CODE_SECRET = "2026";
 
     if (sessionStorage.getItem("protocole_auth") !== "true") {
         const saisie = prompt("Accès Protocole - Entrez le code d'accès :");
 
         if (saisie === CODE_SECRET) {
             sessionStorage.setItem("protocole_auth", "true");
+            return true;
         } else {
             alert("Code d'accès incorrect.");
-            window.location.href = "/"; // Redirige vers l'accueil
-            throw new Error("Accès refusé"); // Stoppe net l'exécution de tout le JS
+            window.location.href = "/";
+            return false;
         }
     }
-})();
+    return true;
+}
+
 // -----------------------------------------------------
 
 
@@ -35,79 +38,92 @@ document.addEventListener('DOMContentLoaded', () => {
     let html5QrcodeScanner = null;
 
    
+// 1. Déclarer renderTable sur window
+window.renderTable = (invites) => {
+    const adminInvitesList = document.getElementById('adminInvitesList') || document.querySelector('tbody');
+    if (!adminInvitesList) return;
 
-    // --- 1. RENDU DU TABLEAU D'INVITÉS ---
-    const renderTable = (invites) => {
-        if (!adminInvitesList) return;
-        adminInvitesList.innerHTML = '';
+    adminInvitesList.innerHTML = '';
 
-        if (invites.length === 0) {
-            adminInvitesList.innerHTML = `
-                <tr>
-                    <td colspan="6" style="text-align: center; color: #94a3b8; padding: 20px;">
-                        Aucun invité trouvé.
-                    </td>
-                </tr>`;
-            return;
-        }
+    if (!invites || invites.length === 0) {
+        adminInvitesList.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; color: #94a3b8;">
+                    Aucun invité trouvé.
+                </td>
+            </tr>`;
+        return;
+    }
 
-        invites.forEach(inv => {
-            const tr = document.createElement('tr');
-            
-            // Formatage de l'affichage avec la Civilité (Titre)
-            const fullTitle = inv.title ? `${inv.title} ` : '';
-            const fullName = `${fullTitle}${inv.prenom} ${inv.nom}`;
+    invites.forEach(inv => {
+        const tr = document.createElement('tr');
+        const fullName = inv.nom || 'Sans nom';
+        const isConfirmed = inv.presence && inv.presence.includes('Oui');
 
-            tr.innerHTML = `
-                <td><strong>${fullName}</strong></td>
-                <td>
-                    <span style="color: ${inv.confirmed ? '#16a34a' : '#eab308'}; font-weight: 500;">
-                        ${inv.confirmed ? `Confirmé (${inv.presence})` : 'En attente'}
-                    </span>
-                </td>
-                <td>${inv.boisson || 'Non spécifié'}</td>
-                <td>
-                    <input type="text" class="table-input" id="table-${inv.id}" value="${inv.table || ''}" placeholder="Ex: Table 1">
-                </td>
-                <td>
-                    <span style="color: ${inv.scanned ? '#16a34a' : '#94a3b8'}; font-weight: bold;">
-                        ${inv.scanned ? `✓ Entré (${inv.scannedAt || ''})` : 'Non scanné'}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn-sm" style="background: #2563eb;" title="Modifier" onclick="editGuest('${inv.id}', '${inv.prenom}', '${inv.nom}', '${inv.title || 'Monsieur'}')">✏️</button>
-                    <button class="btn-sm" style="background: #d4af37;" title="Sauvegarder la table" onclick="saveTable('${inv.id}')">💾</button>
-                    <button class="btn-sm" style="background: #dc2626;" title="Supprimer" onclick="deleteGuest('${inv.id}', '${inv.prenom} ${inv.nom}')">🗑️</button>
-                </td>
-            `;
-            adminInvitesList.appendChild(tr);
+        tr.innerHTML = `
+            <td><strong>${fullName}</strong></td>
+            <td>
+                <span style="color: ${isConfirmed ? '#16a34a' : '#eab308'}; font-weight: 500;">
+                    ${inv.presence || 'En attente'}
+                </span>
+            </td>
+            <td>${inv.boisson || 'Non spécifié'}</td>
+            <td>
+                <input type="text" class="table-input" id="table-${inv.id}" value="${inv.table || ''}" placeholder="Non assignée">
+            </td>
+            <td>
+                <span style="color: ${inv.scanned ? '#16a34a' : '#94a3b8'}; font-weight: bold;">
+                    ${inv.scanned ? '✅ Entré' : '❌ Non scanné'}
+                </span>
+            </td>
+            <td>
+                <button class="btn-sm" style="background: #2563eb;" title="Modifier" onclick="editInvite('${inv.id}')">✏️</button>
+                <button class="btn-sm" style="background: #d4af37;" title="Sauvegarder" onclick="saveTable('${inv.id}')">💾</button>
+                <button class="btn-sm" style="background: #dc2626;" title="Supprimer" onclick="deleteInvite('${inv.id}')">🗑️</button>
+            </td>
+        `;
+        adminInvitesList.appendChild(tr);
+    });
+};
+
+// 2. Déclarer loadAdminData sur window
+window.loadAdminData = async () => {
+    try {
+        const res = await fetch('/api/admin/invites');
+        const data = await res.json();
+        allInvites = data;
+
+        // Mise à jour des compteurs
+        let presentCount = 0;
+        let tablesCount = 0;
+
+        allInvites.forEach(inv => {
+            if (inv.scanned) presentCount++;
+            const tableName = String(inv.table || '').trim();
+            if (tableName && tableName !== 'Non assignée') tablesCount++;
         });
-    };
 
-    // --- 2. CHARGEMENT DES DONNÉES DU SERVEUR ---
-    const loadAdminData = async () => {
-        try {
-            const res = await fetch('/api/admin/invites');
-            allInvites = await res.json();
+        const statTotal = document.getElementById('statTotal');
+        const statPresent = document.getElementById('statPresent');
+        const statTables = document.getElementById('statTables');
 
-            let presentCount = 0;
-            let tablesCount = 0;
+        if (statTotal) statTotal.innerText = allInvites.length;
+        if (statPresent) statPresent.innerText = presentCount;
+        if (statTables) statTables.innerText = tablesCount;
 
-            allInvites.forEach(inv => {
-                if (inv.scanned) presentCount++;
-                if (inv.table && inv.table !== 'Non assignée' && inv.table.trim() !== '') tablesCount++;
-            });
+        // Appel de la fonction de rendu
+        window.renderTable(allInvites);
 
-            // Mise à jour des compteurs du Dashboard
-            if (statTotal) statTotal.innerText = allInvites.length;
-            if (statPresent) statPresent.innerText = presentCount;
-            if (statTables) statTables.innerText = tablesCount;
+    } catch (err) {
+        console.error("Erreur de chargement des données admin :", err);
+    }
+};
 
-            renderTable(allInvites);
-        } catch (err) {
-            console.error('Erreur de chargement des données admin :', err);
-        }
-    };
+// 3. Lancement automatique au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof protocoleAuth === 'function' && !protocoleAuth()) return;
+    window.loadAdminData();
+});
 
     // --- 3. RECHERCHE EN TEMPS RÉEL ---
     if (searchBar) {
@@ -164,69 +180,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 5. FONCTIONS GLOBALES (MODIFIER, SAUVEGARDER TABLE, SUPPRIMER) ---
 
-    // Modifier les infos d'un invité
-    window.editGuest = async (id, currentPrenom, currentNom, currentTitle) => {
-        const newTitle = prompt("Civilité (Monsieur, Madame, Mr & Mme) :", currentTitle);
-        const newPrenom = prompt("Nouveau prénom :", currentPrenom);
-        const newNom = prompt("Nouveau nom :", currentNom);
+    // Éditer un invité
+window.editInvite = async (id) => {
+    const invite = allInvites.find(i => i.id === id);
+    if (!invite) return;
 
-        if (newPrenom && newNom) {
-            try {
-                const res = await fetch(`/api/admin/update-guest/${id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title: newTitle, prenom: newPrenom, nom: newNom })
-                });
+    const nouveauNom = prompt("Modifier le nom de l'invité :", invite.nom || "");
+    if (!nouveauNom || nouveauNom === invite.nom) return;
 
-                if (res.ok) {
-                    loadAdminData();
-                } else {
-                    alert('Erreur lors de la modification.');
-                }
-            } catch (err) {
-                alert('Erreur réseau.');
-            }
+    try {
+        const res = await fetch(`/api/admin/invites/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom: nouveauNom.trim() })
+        });
+
+        if (res.ok) {
+            loadAdminData();
+        } else {
+            alert("Erreur lors de la modification.");
         }
-    };
+    } catch (err) {
+        console.error("Erreur serveur :", err);
+    }
+};
 
-    // Sauvegarder l'assignation de table
-    window.saveTable = async (id) => {
-        const input = document.getElementById(`table-${id}`);
-        if (!input) return;
+// Sauvegarder l'assignation de table
+window.saveTable = async (id) => {
+    const input = document.getElementById(`table-${id}`);
+    if (!input) return;
 
-        try {
-            const res = await fetch('/api/admin/assign-table', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, table: input.value.trim() })
-            });
+    try {
+        const res = await fetch('/api/admin/assign-table', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id, table: input.value.trim() })
+        });
 
-            if (res.ok) {
-                alert('Table enregistrée avec succès !');
-                loadAdminData();
-            } else {
-                alert('Erreur lors de l’assignation de la table.');
-            }
-        } catch (err) {
-            alert('Erreur de connexion au serveur.');
+        if (res.ok) {
+            alert('Table enregistrée avec succès !');
+            loadAdminData();
+        } else {
+            alert("Erreur lors de l'assignation de la table.");
         }
-    };
+    } catch (err) {
+        alert('Erreur de connexion au serveur.');
+    }
+};
 
-    // Supprimer un invité
-    window.deleteGuest = async (id, name) => {
-        if (confirm(`Voulez-vous vraiment supprimer ${name} ?`)) {
-            try {
-                const res = await fetch(`/api/admin/delete-guest/${id}`, { method: 'DELETE' });
-                if (res.ok) {
-                    loadAdminData();
-                } else {
-                    alert('Erreur lors de la suppression.');
-                }
-            } catch (err) {
-                alert('Erreur réseau.');
-            }
+// Supprimer un invité
+window.deleteInvite = async (id) => {
+    const invite = allInvites.find(i => i.id === id);
+    const nomAffiche = invite ? invite.nom : "";
+
+    if (!confirm(`Voulez-vous vraiment supprimer ${nomAffiche} ?`)) return;
+
+    try {
+        const res = await fetch(`/api/admin/delete-guest/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            loadAdminData();
+        } else {
+            alert("Erreur lors de la suppression.");
         }
-    };
+    } catch (err) {
+        console.error("Erreur serveur :", err);
+    }
+};
+
 
     // --- 6. GESTION DU SCANNER QR CODE ---
     const onScanSuccess = async (decodedText) => {
