@@ -155,32 +155,64 @@ app.post('/api/admin/add-guest', (req, res) => {
 
 
 // 3. Modifier les informations d'un invité
-app.put('/api/admin/update-guest/:id', (req, res) => {
+app.put('/api/admin/invites/:id', (req, res) => {
+    const { id } = req.params;
     const { prenom, nom } = req.body;
-    let invites = readDB();
-    const index = invites.findIndex(i => i.id === req.params.id);
 
-    if (index !== -1) {
-        invites[index].prenom = prenom.trim();
-        invites[index].nom = nom.trim();
-        writeDB(invites);
-        return res.json({ success: true, status: "ok" });
+    // Mise à jour de l'invité dans le tableau global / fichier JSON
+    const invite = invites.find(i => i.id === id);
+    if (invite) {
+        if (prenom !== undefined) invite.prenom = prenom;
+        if (nom !== undefined) invite.nom = nom;
+        
+        // Sauvegarde dans database.json
+        fs.writeFileSync(dbPath, JSON.stringify(invites, null, 2));
+        return res.json({ success: true, invite });
     }
-    res.status(404).json({ error: 'Invité introuvable.' });
+    
+    res.status(404).json({ error: "Invité non trouvé" });
 });
 
 // 4. Assigner ou modifier une table
-app.post('/api/admin/assign-table', (req, res) => {
-    const { id, table } = req.body;
-    let invites = readDB();
-    const index = invites.findIndex(i => i.id === id);
+// Route d'ajout VIP sécurisée
+app.post('/api/admin/invites', (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+    const dbPath = path.join(__dirname, 'database.json');
 
-    if (index !== -1) {
-        invites[index].table = table.trim();
-        writeDB(invites);
-        return res.json({ success: true, status: "ok" });
-    }
-    res.status(404).json({ error: 'Invité introuvable.' });
+    const { prenom, nom, table } = req.body;
+
+    // Relire systématiquement le fichier avant d'ajouter
+    fs.readFile(dbPath, 'utf8', (err, data) => {
+        let currentInvites = [];
+        if (!err && data) {
+            try {
+                currentInvites = JSON.parse(data);
+            } catch (e) {
+                console.error("Erreur parsing JSON :", e);
+            }
+        }
+
+        const newInvite = {
+            id: Date.now().toString(),
+            prenom: prenom || '',
+            nom: nom || '',
+            presence: 'Non spécifié',
+            boisson: 'Non spécifié',
+            table: table || 'Non assignée',
+            scanned: false
+        };
+
+        currentInvites.push(newInvite);
+
+        // Sauvegarde sécurisée
+        fs.writeFile(dbPath, JSON.stringify(currentInvites, null, 2), (errWrite) => {
+            if (errWrite) {
+                return res.status(500).json({ error: "Erreur d'écriture dans la base" });
+            }
+            res.status(201).json(newInvite);
+        });
+    });
 });
 
 // 5. Supprimer un invité de la liste

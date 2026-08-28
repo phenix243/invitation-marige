@@ -4,7 +4,7 @@
     "nom": "Mr & Mme Arthur KABWENDE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "FRANCE",
     "scanned": false
   },
   {
@@ -12,7 +12,7 @@
     "nom": "Mr & Mme BEN KABWENDE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "FRANCE",
     "scanned": false
   },
   {
@@ -20,7 +20,7 @@
     "nom": "Mr & Mme GISELE KABWENDE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "FRANCE",
     "scanned": false
   },
   {
@@ -28,7 +28,7 @@
     "nom": "Mr & Mme CHARLE KABWENDE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "FRANCE",
     "scanned": false
   },
   {
@@ -36,7 +36,7 @@
     "nom": "Mr & Mme JUVENAL KABWENDE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "NIGERIA",
     "scanned": false
   },
   {
@@ -44,7 +44,7 @@
     "nom": "Mr & Mme KOKO .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "NIGERIA",
     "scanned": false
   },
   {
@@ -60,7 +60,7 @@
     "nom": "Madame TANTINE ANNIE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "NIGERIA",
     "scanned": false
   },
   {
@@ -68,7 +68,7 @@
     "nom": "Madame TANTINE CLARISSE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "NIGERIA",
     "scanned": false
   },
   {
@@ -76,7 +76,7 @@
     "nom": "Mr & Mme PASTEUR ALBERT",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KINSHASA",
     "scanned": false
   },
   {
@@ -84,7 +84,7 @@
     "nom": "Mr & Mme PASTEUR JOSUE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KINSHASA",
     "scanned": false
   },
   {
@@ -92,7 +92,7 @@
     "nom": "Mr & Mme PASTEUR OLIVIER",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KINSHASA",
     "scanned": false
   },
   {
@@ -104,27 +104,11 @@
     "scanned": false
   },
   {
-    "id": "INV-1787900449918",
-    "nom": "Mr & Mme PAPA MAMAN",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
     "id": "INV-1787900449919",
     "nom": "Mr & Mme CHARLE ALIMASI",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
-    "scanned": false
-  },
-  {
-    "id": "INV-1787900449920",
-    "nom": "Mr & Mme CHARLE ALIMASI",
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "EGYPTE",
     "scanned": false
   },
   {
@@ -132,7 +116,7 @@
     "nom": "Mr & Mme PATRICIA .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "EGYPTE",
     "scanned": false
   },
   {
@@ -140,7 +124,7 @@
     "nom": "Monsieur TONTON CHRISTIAN",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "EGYPYE",
     "scanned": false
   },
   {
@@ -148,7 +132,7 @@
     "nom": "Monsieur ANDY .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "EGYPTE",
     "scanned": false
   },
   {
@@ -156,7 +140,7 @@
     "nom": "Madame RESCA .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -164,7 +148,7 @@
     "nom": "Madame MANELLA .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -172,7 +156,7 @@
     "nom": "Madame MERVEIL .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -180,7 +164,7 @@
     "nom": "Madame PLAMEDI .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -188,7 +172,7 @@
     "nom": "Madame JOYCE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -196,7 +180,7 @@
     "nom": "Madame JEMIRA .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -204,7 +188,7 @@
     "nom": "Monsieur CHRIS .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -212,7 +196,7 @@
     "nom": "Monsieur GEDEON .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -220,7 +204,7 @@
     "nom": "Monsieur GENIE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MAROC",
     "scanned": false
   },
   {
@@ -228,7 +212,7 @@
     "nom": "Madame MY JOIE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -236,7 +220,7 @@
     "nom": "Madame ELIANNE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -244,7 +228,7 @@
     "nom": "Madame BELVIE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -252,7 +236,7 @@
     "nom": "Madame LELO .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -260,7 +244,7 @@
     "nom": "Monsieur OBEY .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -268,7 +252,7 @@
     "nom": "Monsieur SEPHIE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -276,7 +260,7 @@
     "nom": "Monsieur BELLA .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -284,7 +268,7 @@
     "nom": "Monsieur DEBORAH .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -292,7 +276,7 @@
     "nom": "Monsieur BENEDITE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "MOZAMBIQUE",
     "scanned": false
   },
   {
@@ -300,7 +284,7 @@
     "nom": "Monsieur GRACE ESTHY",
     "presence": "Confirmé (Oui)",
     "boisson": "Jus / Sans Alcool",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -308,7 +292,7 @@
     "nom": "Madame RAYANE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -316,7 +300,7 @@
     "nom": "Monsieur DIMITRI .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -324,7 +308,7 @@
     "nom": "Monsieur EXAUCE .",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -332,7 +316,7 @@
     "nom": "Monsieur MA MPIA",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -340,7 +324,7 @@
     "nom": "Madame MA NANOUCHE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -348,7 +332,7 @@
     "nom": "Madame MA ANNIE",
     "presence": "En attente",
     "boisson": "Non spécifié",
-    "table": "Non assignée",
+    "table": "KENYA",
     "scanned": false
   },
   {
@@ -422,5 +406,44 @@
     "boisson": "Jus / Sans Alcool",
     "table": "Non assignée",
     "scanned": false
+  },
+  {
+    "id": "INV-1787906195800",
+    "title": "Mr & Mme",
+    "prenom": "JUVE",
+    "nom": "JUVE",
+    "table": "MAROC",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T08:36:35.800Z"
+  },
+  {
+    "id": "INV-1787906356400",
+    "title": "Mr & Mme",
+    "prenom": "CELESTIN",
+    "nom": "CELESTIN",
+    "table": "EGYPTE",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T08:39:16.400Z"
+  },
+  {
+    "id": "INV-1787907176558",
+    "title": "Mr & Mme",
+    "prenom": "VICKY",
+    "nom": "NYANGI",
+    "table": "DOCTEUR",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-08-28T08:52:56.558Z"
   }
 ]

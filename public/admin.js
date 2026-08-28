@@ -22,7 +22,11 @@ function protocoleAuth() {
 
 // Bloque l'initialisation du tableau de bord si le code est faux
 document.addEventListener('DOMContentLoaded', () => {
-    if (!protocoleAuth()) return;
+    // Si la fonction protocoleAuth existe et renvoie false, on stoppe tout
+    if (typeof protocoleAuth === 'function' && !protocoleAuth()) {
+        console.warn("Accès refusé par le protocole d'authentification.");
+        return;
+    }
 
     // Éléments du DOM
     const adminInvitesList = document.getElementById('adminInvitesList');
@@ -38,33 +42,50 @@ document.addEventListener('DOMContentLoaded', () => {
     let html5QrcodeScanner = null;
 
    
-// 1. Déclarer renderTable sur window
-window.renderTable = (invites) => {
-    const adminInvitesList = document.getElementById('adminInvitesList') || document.querySelector('tbody');
-    if (!adminInvitesList) return;
+    window.renderTable = (invites) => {
+        // Récupération dynamique de l'élément tbody
+        const targetList = document.getElementById('adminInvitesList') || document.querySelector('tbody');
+        if (!targetList) {
+            console.error("Élément #adminInvitesList ou tbody introuvable dans le HTML !");
+            return;
+        }
+        targetList.innerHTML = '';
 
-    adminInvitesList.innerHTML = '';
-
-    if (!invites || invites.length === 0) {
-        adminInvitesList.innerHTML = `
-            <tr>
-                <td colspan="6" style="text-align: center; color: #94a3b8;">
-                    Aucun invité trouvé.
-                </td>
-            </tr>`;
-        return;
-    }
-
+        if (!invites || !Array.isArray(invites) || invites.length === 0) {
+            targetList.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; color: #94a3b8; padding: 20px;">
+                        Aucun invité trouvé.
+                    </td>
+                </tr>`;
+            return;
+        }
+        
     invites.forEach(inv => {
         const tr = document.createElement('tr');
-        const fullName = inv.nom || 'Sans nom';
-        const isConfirmed = inv.presence && inv.presence.includes('Oui');
+        
+        // Gestion souple du nom (supporte "nom", "prenom", ou les deux)
+        const namePart = [inv.prenom, inv.nom].filter(Boolean).join(' ');
+        const fullName = namePart || inv.nom || 'Sans nom';
+        
+        const rawStatus = String(inv.presence || '').toLowerCase();
+let presenceStatus = 'En attente';
+
+if (rawStatus === 'pending') {
+    presenceStatus = 'En attente';
+} else if (rawStatus.includes('oui') || rawStatus === 'confirmed' || rawStatus === 'present') {
+    presenceStatus = 'Confirmé';
+} else if (rawStatus.includes('non') || rawStatus === 'declined') {
+    presenceStatus = 'Absent';
+}
+
+const isConfirmed = presenceStatus === 'Confirmé';
 
         tr.innerHTML = `
             <td><strong>${fullName}</strong></td>
             <td>
                 <span style="color: ${isConfirmed ? '#16a34a' : '#eab308'}; font-weight: 500;">
-                    ${inv.presence || 'En attente'}
+                    ${presenceStatus}
                 </span>
             </td>
             <td>${inv.boisson || 'Non spécifié'}</td>
@@ -77,30 +98,33 @@ window.renderTable = (invites) => {
                 </span>
             </td>
             <td>
-                <button class="btn-sm" style="background: #2563eb;" title="Modifier" onclick="editInvite('${inv.id}')">✏️</button>
-                <button class="btn-sm" style="background: #d4af37;" title="Sauvegarder" onclick="saveTable('${inv.id}')">💾</button>
-                <button class="btn-sm" style="background: #dc2626;" title="Supprimer" onclick="deleteInvite('${inv.id}')">🗑️</button>
+                <button class="btn-sm" style="background: #2563eb; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" title="Modifier" onclick="editInvite('${inv.id}')">✏️</button>
+                <button class="btn-sm" style="background: #d4af37; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" title="Sauvegarder" onclick="saveTable('${inv.id}')">💾</button>
+                <button class="btn-sm" style="background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;" title="Supprimer" onclick="deleteInvite('${inv.id}')">🗑️</button>
             </td>
         `;
-        adminInvitesList.appendChild(tr);
+        targetList.appendChild(tr);
     });
 };
 
-// 2. Déclarer loadAdminData sur window
 window.loadAdminData = async () => {
     try {
         const res = await fetch('/api/admin/invites');
+        if (!res.ok) {
+            console.error("Erreur HTTP lors du fetch :", res.status);
+            return;
+        }
+
         const data = await res.json();
         allInvites = data;
 
-        // Mise à jour des compteurs
         let presentCount = 0;
         let tablesCount = 0;
 
         allInvites.forEach(inv => {
             if (inv.scanned) presentCount++;
-            const tableName = String(inv.table || '').trim();
-            if (tableName && tableName !== 'Non assignée') tablesCount++;
+            const t = String(inv.table || '').trim();
+            if (t && t !== 'Non assignée') tablesCount++;
         });
 
         const statTotal = document.getElementById('statTotal');
@@ -111,13 +135,17 @@ window.loadAdminData = async () => {
         if (statPresent) statPresent.innerText = presentCount;
         if (statTables) statTables.innerText = tablesCount;
 
-        // Appel de la fonction de rendu
         window.renderTable(allInvites);
-
     } catch (err) {
-        console.error("Erreur de chargement des données admin :", err);
+        console.error("Erreur lors du chargement des données :", err);
     }
 };
+
+// 3. Lancement automatique au chargement
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof protocoleAuth === 'function' && !protocoleAuth()) return;
+    window.loadAdminData();
+});
 
 // 3. Lancement automatique au chargement
 document.addEventListener('DOMContentLoaded', () => {
@@ -180,30 +208,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 5. FONCTIONS GLOBALES (MODIFIER, SAUVEGARDER TABLE, SUPPRIMER) ---
 
-    // Éditer un invité
-window.editInvite = async (id) => {
-    const invite = allInvites.find(i => i.id === id);
-    if (!invite) return;
-
-    const nouveauNom = prompt("Modifier le nom de l'invité :", invite.nom || "");
-    if (!nouveauNom || nouveauNom === invite.nom) return;
-
-    try {
-        const res = await fetch(`/api/admin/invites/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nom: nouveauNom.trim() })
-        });
-
-        if (res.ok) {
-            loadAdminData();
-        } else {
-            alert("Erreur lors de la modification.");
+    window.editInvite = async (id) => {
+        const invite = allInvites.find(i => i.id === id);
+        if (!invite) return;
+    
+        const nouveauPrenom = prompt("Prénom de l'invité :", invite.prenom || "");
+        const nouveauNom = prompt("Nom de l'invité :", invite.nom || "");
+    
+        if (nouveauPrenom === null && nouveauNom === null) return;
+    
+        try {
+            const res = await fetch(`/api/admin/invites/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    prenom: nouveauPrenom ? nouveauPrenom.trim() : "",
+                    nom: nouveauNom ? nouveauNom.trim() : ""
+                })
+            });
+    
+            if (res.ok) {
+                loadAdminData();
+            } else {
+                alert("Erreur lors de la modification.");
+            }
+        } catch (err) {
+            console.error("Erreur serveur :", err);
         }
-    } catch (err) {
-        console.error("Erreur serveur :", err);
-    }
-};
+    };
+    
 
 // Sauvegarder l'assignation de table
 window.saveTable = async (id) => {
@@ -296,6 +329,7 @@ window.deleteInvite = async (id) => {
         });
     }
 
-    
+    // CHARGEMENT INITIAL DE LA LISTE DES INVITÉS
+    loadAdminData();
 
 });
