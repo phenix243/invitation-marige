@@ -394,9 +394,9 @@
     "prenom": "VICKY",
     "nom": "NYANGI",
     "table": "DOCTEUR",
-    "confirmed": false,
-    "presence": "En attente",
-    "boisson": "Non spécifié",
+    "confirmed": true,
+    "presence": "Oui",
+    "boisson": "Jus / Sans Alcool",
     "scanned": false,
     "scannedAt": null,
     "createdAt": "2026-08-28T08:52:56.558Z"

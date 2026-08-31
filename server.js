@@ -58,22 +58,13 @@ const handleRSVP = async (req, res) => {
             writeDB(invites);
             console.log(`🎉 Présence mise à jour : ${prenom} ${nom}`);
         } else {
-            targetGuest = {
-                id: 'INV-' + Date.now(),
-                prenom: prenom.trim(),
-                nom: nom.trim(),
-                confirmed: true,
-                presence: presence || 'Oui',
-                boisson: boisson || 'Non spécifié',
-                motDoux: motDoux || '',
-                table: 'Non assignée',
-                scanned: false,
-                createdAt: new Date().toISOString()
-            };
-            invites.push(targetGuest);
-            writeDB(invites);
-            console.log(`✨ Nouvel invité enregistré via RSVP : ${prenom} ${nom}`);
+            // SI L'INVITÉ N'EST PAS DANS LA LISTE -> ON REFUSE
+            return res.status(403).json({
+                success: false,
+                message: "Désolé, votre nom ne figure pas sur la liste officielle des invités."
+            });
         }
+
 
         // Génération de l'image QR Code au format Data URL (base64)
         const qrCodeImage = await QRCode.toDataURL(targetGuest.id);
