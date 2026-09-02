@@ -45,9 +45,10 @@ const handleRSVP = async (req, res) => {
 
         const index = invites.findIndex(i => 
             i.prenom && i.nom &&
-            i.prenom.trim().toLowerCase() === prenom.trim().toLowerCase() && 
+            i.prenom.trim().toLowerCase() === prenom.trim().toLowerCase() &&
             i.nom.trim().toLowerCase() === nom.trim().toLowerCase()
         );
+        
 
         if (index !== -1) {
             invites[index].confirmed = true;
