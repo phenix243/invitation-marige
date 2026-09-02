@@ -975,13 +975,13 @@
     "createdAt": "2026-09-01T09:59:43.829Z"
   }
 
-  ,,
+  ,
   {
     "id": "INV-1725290001",
     "title": "Monsieur",
     "prenom": "COUPLE",
     "nom": "ELOGE MERVEILLE",
-    "table":  "KOLWEZI",
+    "table": "KOLWEZI",
     "confirmed": false,
     "presence": "En attente",
     "boisson": "Non spécifié",
