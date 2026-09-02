@@ -31,24 +31,47 @@ const readDB = () => {
 const writeDB = (data) => {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 };
-// --- ROUTE PUBLIQUE : CONFIRMATION DE PRÉSENCE (RSVP) ---
 const handleRSVP = async (req, res) => {
     try {
         const { prenom, nom, presence, boisson, motDoux } = req.body || {};
 
-        if (!prenom || !nom) {
+        if (!prenom && !nom) {
             return res.status(400).json({ error: "Le prénom et le nom sont requis." });
         }
 
         let invites = readDB();
         let targetGuest;
 
-        const index = invites.findIndex(i => 
-            i.prenom && i.nom &&
-            i.prenom.trim().toLowerCase() === prenom.trim().toLowerCase() &&
-            i.nom.trim().toLowerCase() === nom.trim().toLowerCase()
-        );
-        
+        // Fonction de nettoyage ultra-flexible
+        const cleanStr = (str) => 
+            (str || '').toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/\b(monsieur|madame|mme|mr|m|dr|prof)\b/gi, "")
+                .replace(/[^a-z0-9]/g, " ")
+                .trim();
+
+        const inputClean = cleanStr(`${prenom || ''} ${nom || ''}`);
+        const inputWords = inputClean.split(/\s+/).filter(w => w.length > 1);
+
+        const index = invites.findIndex(i => {
+            const dbFull = cleanStr(`${i.title || ''} ${i.prenom || ''} ${i.nom || ''}`);
+            const dbNom = cleanStr(i.nom);
+            const dbPrenom = cleanStr(i.prenom);
+
+            if (!inputClean) return false;
+
+            // 1. Correspondance globale (nom complet, inversion, etc.)
+            if (dbFull.includes(inputClean) || inputClean.includes(cleanStr(`${i.prenom || ''} ${i.nom || ''}`))) {
+                return true;
+            }
+
+            // 2. Recherche mot par mot (ex: trouve "Djany" ou "Betu" séparément)
+            if (inputWords.length > 0) {
+                return inputWords.some(word => dbNom.includes(word) || dbPrenom.includes(word) || dbFull.includes(word));
+            }
+
+            return false;
+        });
 
         if (index !== -1) {
             invites[index].confirmed = true;
@@ -62,10 +85,9 @@ const handleRSVP = async (req, res) => {
             // SI L'INVITÉ N'EST PAS DANS LA LISTE -> ON REFUSE
             return res.status(403).json({
                 success: false,
-                message: "Désolé, votre nom ne figure pas sur la liste officielle des invités."
+                message: "Désolé, votre nom ne figure pas sur la liste officielle."
             });
         }
-
 
         // Génération de l'image QR Code au format Data URL (base64)
         const qrCodeImage = await QRCode.toDataURL(targetGuest.id);
@@ -75,10 +97,10 @@ const handleRSVP = async (req, res) => {
             qrCode: qrCodeImage
         };
 
-        return res.json({ 
-            success: true, 
-            status: "ok", 
-            ok: true, 
+        return res.json({
+            success: true,
+            status: "ok",
+            ok: true,
             message: "Votre présence a bien été enregistrée !",
             invite: guestData,
             qrCode: qrCodeImage
