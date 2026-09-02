@@ -31,6 +31,7 @@ const readDB = () => {
 const writeDB = (data) => {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 };
+
 const handleRSVP = async (req, res) => {
     try {
         const { prenom, nom, presence, boisson, motDoux } = req.body || {};
@@ -40,9 +41,8 @@ const handleRSVP = async (req, res) => {
         }
 
         let invites = readDB();
-        let targetGuest;
 
-        // Fonction de nettoyage ultra-flexible
+        // 1. Nettoyage strict (enlève civilités, accents, majuscules et caractères spéciaux)
         const cleanStr = (str) => 
             (str || '').toLowerCase()
                 .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
@@ -51,46 +51,48 @@ const handleRSVP = async (req, res) => {
                 .trim();
 
         const inputClean = cleanStr(`${prenom || ''} ${nom || ''}`);
-        const inputWords = inputClean.split(/\s+/).filter(w => w.length > 1);
+        // Garde tous les mots de 2 lettres ou plus saisis par l'invité
+        const inputWords = inputClean.split(/\s+/).filter(w => w.length >= 2);
 
+        // 2. Recherche ultra-souple dans la base
         const index = invites.findIndex(i => {
             const dbFull = cleanStr(`${i.title || ''} ${i.prenom || ''} ${i.nom || ''}`);
-            const dbNom = cleanStr(i.nom);
-            const dbPrenom = cleanStr(i.prenom);
-
+            
             if (!inputClean) return false;
 
-            // 1. Correspondance globale (nom complet, inversion, etc.)
+            // A. Si toute la saisie est contenue dans le nom BDD (ou inversement)
             if (dbFull.includes(inputClean) || inputClean.includes(cleanStr(`${i.prenom || ''} ${i.nom || ''}`))) {
                 return true;
             }
 
-            // 2. Recherche mot par mot (ex: trouve "Djany" ou "Betu" séparément)
+            // B. Si AU MOINS UN mot saisi (ex: "David" ou "Betu") est présent dans le nom en BDD
             if (inputWords.length > 0) {
-                return inputWords.some(word => dbNom.includes(word) || dbPrenom.includes(word) || dbFull.includes(word));
+                return inputWords.some(word => dbFull.includes(word));
             }
 
             return false;
         });
 
-        if (index !== -1) {
-            invites[index].confirmed = true;
-            invites[index].presence = presence || 'Oui';
-            invites[index].boisson = boisson || 'Non spécifié';
-            if (motDoux) invites[index].motDoux = motDoux;
-            targetGuest = invites[index];
-            writeDB(invites);
-            console.log(`🎉 Présence mise à jour : ${prenom} ${nom}`);
-        } else {
-            // SI L'INVITÉ N'EST PAS DANS LA LISTE -> ON REFUSE
+        // Si l'invité n'est toujours pas trouvé
+        if (index === -1) {
             return res.status(403).json({
                 success: false,
                 message: "Désolé, votre nom ne figure pas sur la liste officielle."
             });
         }
 
-        // Génération de l'image QR Code au format Data URL (base64)
-        const qrCodeImage = await QRCode.toDataURL(targetGuest.id);
+        // Mise à jour des informations
+        invites[index].confirmed = true;
+        invites[index].presence = presence || 'Oui';
+        invites[index].boisson = boisson || 'Non spécifié';
+        if (motDoux) invites[index].motDoux = motDoux;
+
+        const targetGuest = invites[index];
+        writeDB(invites);
+    
+        // Génération sécurisée du QR Code
+        const guestIdentifier = targetGuest.id || `${targetGuest.prenom}_${targetGuest.nom}`;
+        const qrCodeImage = await QRCode.toDataURL(String(guestIdentifier));
 
         const guestData = {
             ...targetGuest,
