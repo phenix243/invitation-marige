@@ -322,7 +322,14 @@ window.deleteInvite = async (id) => {
     if (startScanBtn) {
         startScanBtn.addEventListener('click', () => {
             if (!html5QrcodeScanner) {
-                html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+                html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+                    fps: 10, 
+                    qrbox: 250,
+                    videoConstraints: {
+                        facingMode: { ideal: "environment" }
+                    }
+                });
+                
                 html5QrcodeScanner.render(onScanSuccess);
                 startScanBtn.innerText = "🛑 Scanner Actif";
             }
