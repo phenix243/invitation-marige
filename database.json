@@ -1183,19 +1183,6 @@
     "createdAt": "2026-09-02T12:00:00.000Z"
   },
   {
-    "id": "INV-1725290023",
-    "title": "Monsieur",
-    "prenom": "COUPLE",
-    "nom": "MATTY",
-    "table": "KATANGA",
-    "confirmed": false,
-    "presence": "En attente",
-    "boisson": "Non spécifié",
-    "scanned": false,
-    "scannedAt": null,
-    "createdAt": "2026-09-02T12:00:00.000Z"
-  },
-  {
     "id": "INV-1725290024",
     "title": "Monsieur",
     "prenom": "COUPLE",
@@ -1597,5 +1584,18 @@
     "scanned": false,
     "scannedAt": null,
     "createdAt": "2026-09-03T08:14:09.658Z"
+  },
+  {
+    "id": "INV-1788423919185",
+    "title": "Monsieur",
+    "prenom": "COUPLE",
+    "nom": "VALEUR",
+    "table": "KATANGA",
+    "confirmed": false,
+    "presence": "En attente",
+    "boisson": "Non spécifié",
+    "scanned": false,
+    "scannedAt": null,
+    "createdAt": "2026-09-03T08:25:19.185Z"
   }
 ]
